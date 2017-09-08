@@ -20,6 +20,7 @@ public class Main {
         //Option for switch and user input choice
         char option;
         do {
+
             System.out.println("Choose an option:");
             System.out.println("a) Renting a DVD");
             System.out.println("b) Returning a DVD");
@@ -27,11 +28,13 @@ public class Main {
             System.out.println("d) Exit Program");
             System.out.print("Your Choice: ");
             option = _scn.nextLine().charAt(0);
+
             //Select the character index start from 0
             int indexNumber;
             boolean found;
             switch (option) {
                 case 'a':
+                case 'A':
                     System.out.println("Rent a DVD");
                     System.out.print("Please enter movie title you wish to rent: ");
                     String rentMovieTitle = _scn.nextLine();
@@ -66,6 +69,7 @@ public class Main {
                     }
                     break;
                 case 'b':
+                case 'B':
                     //Return DVD Option
                     System.out.println("Return a DVD");
                     System.out.print("Please enter movie title you wish to return: ");
@@ -95,6 +99,7 @@ public class Main {
                     }
                     break;
                 case 'c':
+                case 'C':
 //                    List ALl Information for all DVD
                     System.out.println("Information on all DVDs");
                     //better use printf  to align the output
@@ -103,6 +108,9 @@ public class Main {
                     for (DVD aMovie : movie) {
                         System.out.printf("%-15s %15s %15s %n", aMovie.getMovieTitle(), aMovie.getLengthOfMovie(), (aMovie.getStatus()) ? "IN" : "OUT");
                     }
+                    break;
+                case 'd':
+                case 'D':
                     break;
                 default:
                     // Print out invalid choice message

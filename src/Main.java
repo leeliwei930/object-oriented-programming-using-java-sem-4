@@ -2,29 +2,24 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Scanner _scn = new Scanner(System.in);
-        String[][] movieLibrary = {
-                {"Iron Man", "3.50"},
-                {"Death Note", "2.50"},
-                {"Shrek", "2.00"},
-                {"Transformers", "3.25"},
-                {"The Eye", "3.00"},
-                {"Fantastic 4", "4.00"}
-        };
-        DVD[] movie = new DVD[6];
-        // Create 6 object called movie
-        for (int i = 0; i < movieLibrary.length; i++) {
-            // Assignned each DVD movie title and length duration into movie object array, from two dimensional array movieLibrary
-            movie[i] = new DVD(movieLibrary[i][0], Double.parseDouble(movieLibrary[i][1]), true);
-        }
 
-        //Option for switch and user input choice
+        Video[] movie = new Video[8];
+        movie[0] = new Video("Start Wars" , 3.5, true, "Video"  , "Lucas");
+        movie[1] = new Video("Death Note" , 2.5, true , "Video" , "Tarantino");
+        movie[2] = new Video("Death Note" , 1.5, true, "VCD" , 'A');
+        movie[3] = new Video("Shrek" , 2, true, "Video" , "Agogo");
+        movie[4] = new Video("Transformers" , 3.25 , true, "VHS");
+        movie[5] = new Video("The Eye" , 3 , true,  "VHS");
+        movie[6] = new Video("Fantastic 4" , 2, true, "VCD" , 'B');
+        movie[7] = new Video("Shampoo" , 2, true, "VCD" , 'B');
+        // Option for switch and user input choice
         char option;
         do {
 
             System.out.println("Choose an option:");
-            System.out.println("a) Renting a DVD");
-            System.out.println("b) Returning a DVD");
-            System.out.println("c) Printing out information for all the DVDs");
+            System.out.println("a) Renting a DVD, VCD, VHS");
+            System.out.println("b) Returning a DVD, VCD, VHS");
+            System.out.println("c) Printing out information for all the videos");
             System.out.println("d) Exit Program");
             System.out.print("Your Choice: ");
             option = _scn.nextLine().charAt(0);
@@ -38,6 +33,8 @@ public class Main {
                     System.out.println("Rent a DVD");
                     System.out.print("Please enter movie title you wish to rent: ");
                     String rentMovieTitle = _scn.nextLine();
+                    System.out.println("Please enter the medium type: ");
+                    String mediumType = _scn.nextLine();
                     indexNumber = 0;
                     //indexNumber for while loop condition
                     found = false;
@@ -54,7 +51,7 @@ public class Main {
                         //if found the specific movie
                         if (movie[indexNumber].getStatus()) {
                             //if the status is true also known as the movie can be rented out
-                            movie[indexNumber].rentDVD();
+                            movie[indexNumber].rentVideo();
                             // called the rentDVD method targeted array movie object based on index
                             System.out.println("You have rented " + movie[indexNumber].getMovieTitle());
                             //Print notification message
@@ -88,7 +85,7 @@ public class Main {
                         // If Movie has been rented out allow it return back to library
                         //rented status boolean OUT = false , IN = true;
                         if (!movie[indexNumber].getStatus()) {
-                            movie[indexNumber].returnDVD();
+                            movie[indexNumber].returnVideo();
                             //Call return method
                             System.out.println("You have returned " + movie[indexNumber].getMovieTitle());
                         } else {
@@ -105,7 +102,7 @@ public class Main {
                     //better use printf  to align the output
                     System.out.printf("%-15s %15s %15s %n", "DVD Title", "Duration(Hours)", "Status");
                     // foreach loop printout all the movie title, length and status
-                    for (DVD aMovie : movie) {
+                    for (Video aMovie : movie) {
                         System.out.printf("%-15s %15s %15s %n", aMovie.getMovieTitle(), aMovie.getLengthOfMovie(), (aMovie.getStatus()) ? "IN" : "OUT");
                     }
                     break;

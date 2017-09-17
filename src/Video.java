@@ -47,10 +47,16 @@ public  class  Video {
 
     }
 
-    public void rentVideo() {
-        this.status = false;
+    public void rentVideo() throws CantBorrowDVDException{
+        if(!this.status){
+            throw new CantBorrowDVDException(this.status,this.movieTitle);
+        } else {
+            this.status = false;
+        }
 
     }
+
+
 
     public void returnVideo() {
 
@@ -127,4 +133,8 @@ public  class  Video {
     public void setDirector(String newDirector) {
         this.director = newDirector;
     }
+
+
 }
+
+

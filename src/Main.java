@@ -7,14 +7,14 @@ public class Main {
         Scanner _scn = new Scanner(System.in);
 
         Video[] movie = new Video[8];
-        movie[0] = new Video("Start Wars", 3.5, true, "Video", "Lucas");
-        movie[1] = new Video("Death Note", 2.5, true, "Video", "Tarantino");
-        movie[2] = new Video("Death Note", 1.5, true, "VCD", 'A');
-        movie[3] = new Video("Shrek", 2, true, "Video", "Agogo");
-        movie[4] = new Video("Transformers", 3.25, true, "VHS");
-        movie[5] = new Video("The Eye", 3, true, "VHS");
-        movie[6] = new Video("Fantastic 4", 2, true, "VCD", 'B');
-        movie[7] = new Video("Shampoo", 2, true, "VCD", 'B');
+        movie[0] = new DVD("Start Wars", 3.5, true, "Lucas");
+        movie[1] = new DVD("Death Note", 2.5, true,  "Tarantino");
+        movie[2] = new VCD("Death Note", 1.5, true, 'A' );
+        movie[3] = new DVD("Shrek", 2, true,  "Agogo");
+        movie[4] = new Video("Transformers", 3.25, true);
+        movie[5] = new Video("The Eye", 3, true);
+        movie[6] = new VCD("Fantastic 4", 2, true , 'B');
+        movie[7] = new VCD("Shampoo", 2, true , 'B');
         // Option for switch and user input choice
         char option;
         do {
@@ -56,12 +56,12 @@ public class Main {
 
                             while (indexNumber < movie.length) {
                                 //if the movie that user input is valid break the statement and movie index number is located.
-                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && (movie[indexNumber].getTypeOfVideo()).equals(mediumType)) {
+                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && (movie[indexNumber].getTypeOfVideo(mediumType))){
                                     movieAvailable = true;
                                     break;
 
                                 } else
-                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && !(movie[indexNumber].getTypeOfVideo().equals(mediumType))) {
+                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && !(movie[indexNumber].getTypeOfVideo(mediumType))) {
                                     movieAvailable = true;
 
                                     requestedMediumTypeNotAvailable = true;

@@ -17,12 +17,7 @@ public  class  Video {
 
     }
 //Overloaded Constructor
-    public  Video(String movieTitle, double lengthOfMovie , boolean status) {
-        this.movieTitle = movieTitle;
-        this.lengthOfMovie = lengthOfMovie;
-        this.status = status;
-        this.setPriceOfVideo();
-    }
+
 
 
 
@@ -30,7 +25,8 @@ public  class  Video {
 
     public void rentVideo() throws CantBorrowDVDException{
         if(!this.status){
-            throw new CantBorrowDVDException(this.status,this.movieTitle);
+
+            throw new CantBorrowDVDException(this.movieTitle);
         } else {
             this.status = false;
         }
@@ -111,12 +107,21 @@ public  class  Video {
     }
 
     public boolean getTypeOfVideo(String mediumType){
-
-    if(this instanceof mediumType){
-        return true;
-    } else {
-        return false;
-    }
+        boolean check;
+       switch (mediumType){
+           case "DVD":
+               check = (this instanceof DVD);
+               break;
+           case "VCD":
+               check = (this instanceof VCD);
+               break;
+           case "VHS":
+               check = (this instanceof  VHS);
+               break;
+            default:
+                check = false;
+       }
+       return check;
 
     }
 }

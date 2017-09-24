@@ -1,4 +1,3 @@
-import sun.awt.Mutex;
 
 import java.util.Scanner;
 
@@ -8,13 +7,13 @@ public class Main {
 
         Video[] movie = new Video[8];
         movie[0] = new DVD("Start Wars", 3.5, true, "Lucas");
-        movie[1] = new DVD("Death Note", 2.5, true,  "Tarantino");
-        movie[2] = new VCD("Death Note", 1.5, true, 'A' );
-        movie[3] = new DVD("Shrek", 2, true,  "Agogo");
-        movie[4] = new Video("Transformers", 3.25, true);
-        movie[5] = new Video("The Eye", 3, true);
-        movie[6] = new VCD("Fantastic 4", 2, true , 'B');
-        movie[7] = new VCD("Shampoo", 2, true , 'B');
+        movie[1] = new DVD("Death Note", 2.5, true, "Tarantino");
+        movie[2] = new VCD("Death Note", 1.5, true, 'A');
+        movie[3] = new DVD("Shrek", 2, true, "Agogo");
+        movie[4] = new VHS("Transformers", 3.25, true);
+        movie[5] = new VHS("The Eye", 3, true);
+        movie[6] = new VCD("Fantastic 4", 2, true, 'B');
+        movie[7] = new VCD("Shampoo", 2, true, 'B');
         // Option for switch and user input choice
         char option;
         do {
@@ -27,7 +26,7 @@ public class Main {
             System.out.print("Your Choice: ");
             option = _scn.nextLine().charAt(0);
 
-                      switch (option) {
+            switch (option) {
                 case 'a':
                 case 'A':
 
@@ -37,10 +36,10 @@ public class Main {
                     int indexNumber;
                     boolean rentDVDvalidation = false;
 
-                    do {
 
+                    do {
+                        boolean requestedMediumTypeAvailable = false;
                         boolean movieAvailable = false;
-                        boolean requestedMediumTypeNotAvailable = false;
                         try {
                             System.out.print("Please enter movie title you wish to rent: ");
 
@@ -55,25 +54,31 @@ public class Main {
                             //initiate search result to false
 
                             while (indexNumber < movie.length) {
+
                                 //if the movie that user input is valid break the statement and movie index number is located.
-                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && (movie[indexNumber].getTypeOfVideo(mediumType))){
-                                    movieAvailable = true;
-                                    break;
-
-                                } else
-                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && !(movie[indexNumber].getTypeOfVideo(mediumType))) {
+                                if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && (movie[indexNumber]).getTypeOfVideo(mediumType)) {
                                     movieAvailable = true;
 
-                                    requestedMediumTypeNotAvailable = true;
-                                    break;
+                                    requestedMediumTypeAvailable = true;
 
+                                    break;
+                                } else if ((movie[indexNumber].getMovieTitle()).equals(rentMovieTitle) && !(movie[indexNumber]).getTypeOfVideo(mediumType))
+                                    movieAvailable = true;
+
+                                requestedMediumTypeAvailable = false;
+
+                                {
+
+                                    indexNumber++;
                                 }
-                                indexNumber++;
+
                             }
 
                             if (!movieAvailable) {
                                 throw new MovieNotFoundException(rentMovieTitle, mediumType, 1);
-                            } else if (requestedMediumTypeNotAvailable) {
+
+                            }
+                            if (!requestedMediumTypeAvailable) {
                                 throw new MovieNotFoundException(rentMovieTitle, mediumType, 2);
                             } else {
                                 try {
@@ -87,10 +92,10 @@ public class Main {
                             }
                         } catch (MovieNotFoundException exception) {
 
-                                System.err.println(exception.getErrorMessage());
+                            System.err.println(exception.getErrorMessage());
 
                         }
-                    }while(!rentDVDvalidation);
+                    } while (!rentDVDvalidation);
 
 
 //

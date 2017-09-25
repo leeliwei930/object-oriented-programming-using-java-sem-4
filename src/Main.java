@@ -133,14 +133,7 @@ public class Main {
                     break;
                 case 'c':
                 case 'C':
-//                    List ALl Information for all DVD
-                    System.out.println("Information on all DVDs");
-                    //better use printf  to align the output
-                    System.out.printf("%-15s %15s %15s %n", "DVD Title", "Duration(Hours)", "Status");
-                    // foreach loop printout all the movie title, length and status
-                    for (Video aMovie : movie) {
-                        System.out.printf("%-15s %15s %15s %n", aMovie.getMovieTitle(), aMovie.getLengthOfMovie(), (aMovie.getStatus()) ? "IN" : "OUT");
-                    }
+                        print(movie);
                     break;
                 case 'd':
                 case 'D':
@@ -155,5 +148,16 @@ public class Main {
         System.out.println("Thank you for your patronage. Please come again.");
         System.out.println("Press any key to continue...");
         System.exit(0);
+    }
+
+    public static void print(Video[] movie){
+        //                    List ALl Information for all DVD
+        System.out.println("Information on all DVDs");
+        //better use printf  to align the output
+        System.out.printf("%-15s %15s %15s %n", "DVD Title", "Duration(Hours)", "Status");
+        // foreach loop printout all the movie title, length and status
+        for (Video aMovie : movie) {
+            System.out.printf("%-15s %15s %15s %n", aMovie.getMovieTitle(), aMovie.getLengthOfMovie(), (aMovie.getStatus()) ? "IN" : "OUT");
+        }
     }
 }

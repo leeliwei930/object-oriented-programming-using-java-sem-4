@@ -8,4 +8,8 @@ public class DVD extends Video{
         this.setPriceOfVideo();
 
     }
+
+    public void setPriceOfVideo(){
+        this.priceOfVideo = 50;
+    }
 }

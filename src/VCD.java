@@ -12,4 +12,17 @@ public class VCD extends Video{
         this.setPriceOfVideo();
 
     }
+
+    public void setPriceOfVideo(){
+
+        switch(this.getMovieRating()){
+            case 'A':
+                this.priceOfVideo = 20.00;
+                break;
+            default:
+                this.priceOfVideo = 10.00;
+        }
+        this.priceOfVideo = 20.00;
+
+    }
 }

@@ -1,4 +1,4 @@
-public  class  Video {
+public  abstract class  Video {
     public  int numberOfDvd = 100;
     protected String movieTitle;
     protected double lengthOfMovie;
@@ -81,23 +81,7 @@ public  class  Video {
      * VHS each 12.00
      * DVD each 50
      * */
-    public void setPriceOfVideo(){
-//        if(this.getTypeOfVideo().equals("VHS")){
-//            //VHS Price
-//            this.priceOfVideo = 12.00;
-//        } else if(this.getTypeOfVideo().equals("VCD") && this.getMovieRating() == 'A'){
-//            //            VCD  A rating
-//
-//            this.priceOfVideo = 20.00;
-//        } else if (this.getTypeOfVideo().equals("VCD") && this.getMovieRating() != 'A'){
-////            VCD Not A rating
-//            this.priceOfVideo = 10.00;
-//
-//        } else {
-//            //DVD Price
-//            this.priceOfVideo = 50;
-//        }
-    }
+     abstract void setPriceOfVideo();
     public String getDirector() {
         return director;
     }

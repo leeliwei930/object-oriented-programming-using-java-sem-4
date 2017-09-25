@@ -6,4 +6,9 @@ public class VHS extends  Video{
         this.setPriceOfVideo();
     }
 
+    public void setPriceOfVideo(){
+        this.priceOfVideo = 12.00;
+
+    }
+
 }

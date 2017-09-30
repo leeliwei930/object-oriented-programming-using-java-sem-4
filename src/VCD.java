@@ -1,14 +1,13 @@
-import java.util.Date;
 
-public class VCD extends Video{
-    private char movieRating;
-    private Date yearMade;
+public final class VCD extends Video{
 
-    public VCD(String movieTitle, double lengthOfMovie , boolean status,  char movieRating){
+
+    public VCD(String movieTitle, double lengthOfMovie , boolean status,  char movieRating, int yearMade){
         this.movieTitle = movieTitle;
         this.lengthOfMovie = lengthOfMovie;
         this.status = status;
         this.movieRating = movieRating;
+        this.yearMade = yearMade;
         this.setPriceOfVideo();
 
     }
@@ -24,5 +23,9 @@ public class VCD extends Video{
         }
         this.priceOfVideo = 20.00;
 
+    }
+
+    public boolean equals(String movieTitle , String Type){
+      return  (this.movieTitle.equals(movieTitle) && this.getClass().getName().equals(Type));
     }
 }

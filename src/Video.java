@@ -1,11 +1,11 @@
 public  abstract class  Video {
-    public  int numberOfDvd = 100;
     protected String movieTitle;
     protected double lengthOfMovie;
     protected boolean status;
     protected double priceOfVideo;
     protected char movieRating;
     protected String director;
+    protected int yearMade;
 // Default Constructor
     public Video() {
         this.movieTitle = null;
@@ -23,10 +23,10 @@ public  abstract class  Video {
 
 
 
-    public void rentVideo() throws CantBorrowDVDException{
+    public void rentVideo() throws NotAvailException {
         if(!this.status){
 
-            throw new CantBorrowDVDException(this.movieTitle);
+            throw new NotAvailException(this.movieTitle);
         } else {
             this.status = false;
         }
@@ -89,6 +89,7 @@ public  abstract class  Video {
     public void setDirector(String newDirector) {
         this.director = newDirector;
     }
+    public abstract boolean equals(String movieTitle , String Type);
 
     public boolean getTypeOfVideo(String mediumType){
         boolean check;
@@ -106,6 +107,29 @@ public  abstract class  Video {
                 check = false;
        }
        return check;
+
+    }
+//
+//    public boolean checkAvailableToPurchase(){
+//        if(!this.status){
+//
+//            throw new NotAvailException(this.movieTitle);
+//        } else {
+//            this.status = false;
+//        }
+//
+//    }
+    public double getActualPrice(Customer customer) throws NotAvailException{
+
+        if(!this.status){
+            throw new NotAvailException(this.movieTitle);
+        } else {
+            if(customer.totalPurchaseAmount >= 100.00){
+                this.priceOfVideo = this.priceOfVideo * 0.9;
+            }
+        }
+
+        return priceOfVideo;
 
     }
 }

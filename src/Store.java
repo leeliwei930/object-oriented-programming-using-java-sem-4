@@ -29,7 +29,7 @@ public class Store {
             customerDBNotFoundException.printStackTrace();
         }
 
-        Video[] movie = new Video[8];
+        Video[] movie = new Video[100];
         movie[0] = new DVD("Start Wars", 3.5, true, "Lucas");
         movie[1] = new DVD("Death Note", 2.5, true, "Tarantino");
         movie[2] = new VCD("Death Note", 1.5, true, 'A', 2006);
@@ -39,9 +39,10 @@ public class Store {
         movie[6] = new VCD("Fantastic 4", 2, true, 'B' , 2004);
         movie[7] = new VCD("Shampoo", 2, true, 'B' , 2007);
         // Option for switch and user input choice
-        Scanner _scn = new Scanner(System.in);
 
         do {
+            Scanner _scn = new Scanner(System.in);
+
             do {
                 try {
                     System.out.println("Choose an option:");
@@ -59,7 +60,7 @@ public class Store {
 
                     option = _scn.nextLine().charAt(0);
                     optionValidation = true;
-                } catch (StringIndexOutOfBoundsException exception) {
+                } catch (Exception exception) {
                     System.err.println("Option cannot be empty, please choose the options based on the menu");
                 }
             } while (!optionValidation);
@@ -67,7 +68,7 @@ public class Store {
             switch (option) {
                 case 'a':
                 case 'A':
-
+                    option = ' ';
                     System.out.println("Rent a DVD");
 
                     //Select the character index start from 0
@@ -95,7 +96,7 @@ public class Store {
 
                             //initiate search result to false
 
-                            while (indexNumber < movie.length) {
+                            while (indexNumber <= newMovieCounter - 1) {
 
                                 //if the movie that user input is valid break the statement and movie index number is located.
                                 if ((movie[indexNumber].equals(rentMovieTitle, mediumType))) {
@@ -144,6 +145,8 @@ public class Store {
                     break;
                 case 'b':
                 case 'B':
+                    option = ' ';
+
                     boolean found;
                     //Return DVD Option
                     System.out.println("Return a DVD");
@@ -153,7 +156,7 @@ public class Store {
                     String returnMediumType = _scn.nextLine();
                     indexNumber = 0;
                     found = false;
-                    while (indexNumber < movie.length) {
+                    while (indexNumber <= newMovieCounter - 1) {
                         // if movie is found based on user input
                         if ((movie[indexNumber].getMovieTitle()).equals(returnMovieTitle) && movie[indexNumber].equals(returnMovieTitle, returnMediumType)) {
                             found = true;
@@ -177,35 +180,127 @@ public class Store {
                     break;
                 case 'c':
                 case 'C':
+                    option = ' ';
+
                     //Buy Video
-                    System.out.print("Please enter your customer name:");
-                    String customerName = _scn.nextLine();
-                    System.out.print("Please enter the movie title that you want to purchase:");
-                    String moviePurchase = _scn.nextLine();
-                    System.out.print("Please enter your medium type:");
-                    String purchaseMovieMediumType = _scn.nextLine();
+                    boolean customerValidation = false;
+                    boolean customerFound = false;
+                    int customerFindIndexCounter = 0;
+                    String customerName = "";
+                    int purchaseMovieFindIndex;
+
+                    do {
+
                     try {
-                       for(int customerFindIndexCounter = 0; customerFindIndexCounter <= customerReadCounter; customerFindIndexCounter ++ ){
 
-                       }
-                    } catch(CustomerNotAvailException CustomerNaException){
-
+                            System.out.println("[Back = 0000]");
+                            System.out.print("Please enter your customer name:");
+                            customerName = _scn.nextLine();
+                            while (customerFindIndexCounter <= customerReadCounter - 1){
+                                if(customerList[customerFindIndexCounter].customerName.equals(customerName)){
+                                    customerFound = true;
+                                    break;
+                                }
+                                customerFindIndexCounter++;
+                            }
+                            if(!customerFound && !customerName.equals("0000")){
+                                throw new CustomerNotAvailException(customerName);
+                            } else {
+                                customerValidation = true;
+                            }
+                    } catch (CustomerNotAvailException customerNotFoundException){
+                        System.err.println(customerNotFoundException.getErrorMessage());
                     }
+                    } while (!customerFound && !customerName.equals("0000"));
+                    boolean movieFound = false;
+                    String moviePurchase;
+                    String purchaseMovieMediumType;
+                    int movieSearchIndex = 0;
+                    if(customerValidation) {
+                            do {
+                                System.out.print("Please enter the movie title that you want to purchase:");
+                               moviePurchase = _scn.nextLine();
+                                System.out.print("Please enter your medium type:");
+                               purchaseMovieMediumType = _scn.nextLine();
+                               while(movieSearchIndex <= newMovieCounter -1){
+                                    if(movie[movieSearchIndex].movieTitle.equals(moviePurchase)&& movie[movieSearchIndex].equals(movie[movieSearchIndex].movieTitle,purchaseMovieMediumType)){
+                                        movieFound = true;
+                                        break;
+                                    }
+                                   movieSearchIndex++;
+                               }
+                               } while(!movieFound && (!moviePurchase.equals("0000") || !purchaseMovieMediumType.equals("0000")));
+                            if(movieFound){
+                                try {
+                                    movie[movieSearchIndex].purchase(customerList[customerFindIndexCounter]);
+                                    movie[movieSearchIndex].status = false;
+                                    System.out.println("The movie " + moviePurchase + " purchased successfully");
+                                } catch (NotAvailException notAvailableToPurchaseException){
+                                    System.err.println(notAvailableToPurchaseException.getErrorMessage(2));
+                                }
+                            }
+                    }
+
+
                     break;
                 case 'd':
                 case 'D':
+                    option = ' ';
+
                     // print out customer information
+//                    for(int i = 0; i < customerReadCounter; i++){
+//                        System.out.println(customerList[i].getCustomerName());
+//                        System.out.println(customerList[i].totalPurchaseAmount);
+//                    }
+                    boolean customerInfoFound = false;
+
+                    do {
+                        int searchCustomerInfoIndex = 0;
+                        System.out.print("Please Enter Customer Name: ");
+                        String customerNameInfoSearch = _scn.nextLine();
+                        try {
+
+
+                            while (searchCustomerInfoIndex <= customerReadCounter -1) {
+                                if (customerList[searchCustomerInfoIndex].customerName.equals(customerNameInfoSearch)) {
+                                    customerInfoFound = true;
+                                    break;
+                                }
+                                searchCustomerInfoIndex ++;
+                            }
+                            if (customerInfoFound) {
+                                System.out.println("Customer Name: " + customerList[searchCustomerInfoIndex].customerName);
+                                System.out.println("Customer Age: " + customerList[searchCustomerInfoIndex].age);
+                                System.out.println("Customer Mobile Number: " + customerList[searchCustomerInfoIndex].mobileNumber);
+                                System.out.println("Customer Total Purchase Amount: " + customerList[searchCustomerInfoIndex].totalPurchaseAmount);
+                            } else {
+                                throw new CustomerNotAvailException(customerNameInfoSearch);
+                            }
+                        } catch (CustomerNotAvailException customerNotFoundException) {
+                            System.err.print(customerNotFoundException.getErrorMessage());
+                        }
+                    } while(!customerInfoFound);
                     break;
                 case 'e':
                 case 'E':
+                    option = ' ';
+                    boolean addMovieValidation = false;
+                    do {
+                    String newMovieMediumType;
                     //Add a video
                     System.out.println("Add a new video to library");
-                    System.out.print("New Movie Title: ");
+                        System.out.println("[ Back = 0000 ]");
+
+                        System.out.print("New Movie Title: ");
                     String newMovieTitle = _scn.nextLine();
+                    if(newMovieTitle.equals("0000")){
+                        break;
+                    }
                     System.out.print("New Movie medium type:");
-                    String newMovieMediumType = _scn.nextLine();
+                     newMovieMediumType = _scn.nextLine();
                     System.out.print("New Movie duration: ");
                     double newMovieLength = _scn.nextDouble();
+                    _scn.nextLine();
                     switch (newMovieMediumType) {
                         case "DVD":
                         case "dvd":
@@ -213,8 +308,10 @@ public class Store {
                             String newMovieDirectorName = _scn.nextLine();
 
                             movie[newMovieCounter] = new DVD(newMovieTitle, newMovieLength, true, newMovieDirectorName);
-                            newMovieCounter++;
                             System.out.println("The movie " + newMovieTitle + " has created successfully.");
+                            newMovieCounter++;
+                            addMovieValidation = true;
+
                             break;
                         case "VCD":
                         case "vcd":
@@ -225,26 +322,79 @@ public class Store {
                             movie[newMovieCounter] = new VCD(newMovieTitle, newMovieLength, true, newMovieRating, newMovieYearMadeDate);
                             newMovieCounter++;
                             System.out.println("The movie " + newMovieTitle + " has created successfully.");
-
+                            addMovieValidation = true;
                             break;
                         case "VHS":
                         case "vhs":
                             movie[newMovieCounter] = new VHS(newMovieTitle, newMovieLength, true);
                             newMovieCounter++;
                             System.out.println("The movie " + newMovieTitle + " has created successfully.");
+                            addMovieValidation = true;
 
                             break;
-
+                        default:
+                            System.err.println("Invalid Medium Type. Please try again.");
 
                     }
+                    } while(!addMovieValidation);
                     break;
 
                 case 'f':
                 case 'F':
+                    option = ' ';
+
+                    String movieInformationMediumType;
+                    String movieInformationTitle;
+                    boolean movieInformationFounded = false;
+                    boolean exit = false;
+                    do {
+                        System.out.println("[Back =  0000]");
+                        System.out.print("Please Enter the movie Title: ");
+                   movieInformationTitle = _scn.nextLine();
+                        if(movieInformationTitle.equals("0000")) {
+                            exit = true;
+                            break;
+                        }
+                        System.out.print("Please Enter the medium Type: ");
+                      movieInformationMediumType = _scn.nextLine();
+
+
+                        try {
+                            int searchMovieInformationCounter = 0;
+
+                            while (searchMovieInformationCounter <= newMovieCounter -1 ) {
+
+                                    if (movie[searchMovieInformationCounter].equals(movieInformationTitle, movieInformationMediumType)) {
+                                    movieInformationFounded = true;
+                                    break;
+                                }
+                                searchMovieInformationCounter++;
+
+                            }
+                            if(!movieInformationFounded) {
+                                throw new MovieNotFoundException(movieInformationTitle, movieInformationMediumType, 1);
+                            }
+                            else if(movie[searchMovieInformationCounter].movieTitle.equals(movieInformationTitle) && !movie[searchMovieInformationCounter].equals(movieInformationTitle, movieInformationMediumType)) {
+
+                                throw new MovieNotFoundException(movieInformationTitle, movieInformationMediumType , 2);
+                            } else {
+                                System.out.println("Movie Title: " + movie[searchMovieInformationCounter].movieTitle);
+                                System.out.println("Medium Type: " + movie[searchMovieInformationCounter].getClass().getName());
+                                System.out.println("Movie Length: " + movie[searchMovieInformationCounter].lengthOfMovie);
+                                System.out.println("Movie Status: " + movie[searchMovieInformationCounter].status);
+                            }
+
+                        } catch (MovieNotFoundException movieNotFoundException){
+                            System.err.println(movieNotFoundException.getErrorMessage());
+                        }
+
+                    } while(!movieInformationFounded && !exit);
                     //user entered the movie title and movie type and display all the information about the video
+
                     break;
                 case 'g':
                 case 'G':
+                    option = ' ';
 
                     break;
 //                case 'h':

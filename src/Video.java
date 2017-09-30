@@ -1,3 +1,5 @@
+import com.sun.tools.corba.se.idl.constExpr.Not;
+
 public  abstract class  Video {
     protected String movieTitle;
     protected double lengthOfMovie;
@@ -6,6 +8,7 @@ public  abstract class  Video {
     protected char movieRating;
     protected String director;
     protected int yearMade;
+    protected boolean isPurchased = false;
 // Default Constructor
     public Video() {
         this.movieTitle = null;
@@ -131,6 +134,19 @@ public  abstract class  Video {
 
         return priceOfVideo;
 
+    }
+
+
+    public void purchase(Customer customer)throws NotAvailException{
+        double purchaseAmount;
+        if(!this.status){
+            throw new NotAvailException(this.movieTitle);
+        } else {
+            this.isPurchased = true;
+            purchaseAmount = this.getActualPrice(customer);
+            customer.totalPurchaseAmount = purchaseAmount + customer.totalPurchaseAmount;
+
+        }
     }
 }
 

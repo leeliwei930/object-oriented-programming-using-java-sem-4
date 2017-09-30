@@ -21,7 +21,6 @@ public final class VCD extends Video{
             default:
                 this.priceOfVideo = 10.00;
         }
-        this.priceOfVideo = 20.00;
 
     }
 

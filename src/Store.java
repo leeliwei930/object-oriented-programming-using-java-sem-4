@@ -414,12 +414,26 @@ public class Store {
                             } else if (movie[searchMovieInformationCounter].movieTitle.equals(movieInformationTitle) && !movie[searchMovieInformationCounter].equals(movieInformationTitle, movieInformationMediumType)) {
 
                                 throw new MovieNotFoundException(movieInformationTitle, movieInformationMediumType, 2);
-                            } else {
+                            }
+
+                            if(movieInformationFounded && movie[searchMovieInformationCounter].equals(movieInformationTitle, movieInformationMediumType)) {
                                 System.out.println("Movie Title: " + movie[searchMovieInformationCounter].movieTitle);
                                 System.out.println("Medium Type: " + movie[searchMovieInformationCounter].getClass().getName());
                                 System.out.println("Movie Length: " + movie[searchMovieInformationCounter].lengthOfMovie);
-                                System.out.println("Movie Status: " + ((movie[searchMovieInformationCounter].status)? "IN" : "OUT"));
+                                System.out.println("Movie Status: " + ((movie[searchMovieInformationCounter].status) ? "IN" : "OUT"));
+                                System.out.println("Price of the movie: " + movie[searchMovieInformationCounter].priceOfVideo);
+
+                                if (movie[searchMovieInformationCounter].getClass().getName().equals("DVD")) {
+                                    System.out.println("Director: " + movie[searchMovieInformationCounter].director);
+                                }
+                                if (movie[searchMovieInformationCounter].getClass().getName().equals("VCD")) {
+                                    System.out.println("Movie Rating: " + movie[searchMovieInformationCounter].movieRating);
+                                    System.out.println("Year Made: " + movie[searchMovieInformationCounter].yearMade);
+
+                                }
                             }
+
+
 
                         } catch (MovieNotFoundException movieNotFoundException) {
                             System.err.println(movieNotFoundException.getErrorMessage());

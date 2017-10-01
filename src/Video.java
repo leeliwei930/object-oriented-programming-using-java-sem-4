@@ -17,6 +17,7 @@ public  abstract class  Video {
         this.priceOfVideo = 0;
         this.movieRating = 'n';
         this.director = null;
+        this.yearMade = 0;
 
     }
 //Overloaded Constructor
@@ -142,9 +143,17 @@ public  abstract class  Video {
         if(!this.status){
             throw new NotAvailException(this.movieTitle);
         } else {
-            this.isPurchased = true;
+
+
             purchaseAmount = this.getActualPrice(customer);
             customer.totalPurchaseAmount = purchaseAmount + customer.totalPurchaseAmount;
+            this.movieTitle = "";
+            this.status = false;
+            this.lengthOfMovie = 0;
+            this.priceOfVideo = 0;
+            this.movieRating = 'n';
+            this.director =  " ";
+            this.yearMade = 0;
 
         }
     }

@@ -25,8 +25,9 @@ public class Store {
                 customerList[customerReadCounter++] = new Customer(customerName, mobileNumber, cutomerAge);
             }
         } catch (FileNotFoundException customerDBNotFoundException) {
-            System.err.print("Customer Database File cannot be found, please check the customer database file path at line:8 on Store.java");
+            System.err.println("Customer Database File cannot be found, please check the customer database file path at line:8 on Store.java");
             customerDBNotFoundException.printStackTrace();
+            System.exit(1);
         }
 
         Video[] movie = new Video[100];
@@ -48,8 +49,10 @@ public class Store {
         try {
             FileReader videoFileReader = new FileReader(videoFile);
         } catch (FileNotFoundException videoDBFileNotFoundException) {
-            System.err.println("Video Database File cannot be found, please check the customer database file path at line:9 on Store.java");
+            System.err.println("Video Database File cannot be found, please check the video database file path at line:9 on Store.java");
             videoDBFileNotFoundException.printStackTrace();
+            System.exit(1);
+
         }
         do {
 
@@ -162,34 +165,42 @@ public class Store {
 
                     boolean found;
                     //Return DVD Option
-                    System.out.println("Return a DVD");
-                    System.out.print("Please enter movie title you wish to return: ");
-                    String returnMovieTitle = _scn.nextLine();
-                    System.out.print("Please enter the movie medium type that you want to return: ");
-                    String returnMediumType = _scn.nextLine();
-                    indexNumber = 0;
-                    found = false;
-                    while (indexNumber <= newMovieCounter - 1) {
-                        // if movie is found based on user input
-                        if ((movie[indexNumber].getMovieTitle()).equals(returnMovieTitle) && movie[indexNumber].equals(returnMovieTitle, returnMediumType)) {
-                            found = true;
+                    do {
+                        System.out.println("Return a DVD");
+                        System.out.println("[Back = 0000]");
+
+                        System.out.print("Please enter movie title you wish to return: ");
+                        String returnMovieTitle = _scn.nextLine();
+                        if(returnMovieTitle.equals("0000"))
                             break;
+                        System.out.print("Please enter the movie medium type that you want to return: ");
+                        String returnMediumType = _scn.nextLine();
+                        indexNumber = 0;
+                        found = false;
+                        while (indexNumber <= newMovieCounter - 1) {
+                            // if movie is found based on user input
+                            if ((movie[indexNumber].getMovieTitle()).equals(returnMovieTitle) && movie[indexNumber].equals(returnMovieTitle, returnMediumType)) {
+                                found = true;
+                                break;
+                            }
+                            indexNumber++;
                         }
-                        indexNumber++;
-                    }
-                    if (found) {
-                        // If Movie has been rented out allow it return back to library
-                        //rented status boolean OUT = false , IN = true;
-                        if (!movie[indexNumber].getStatus()) {
-                            movie[indexNumber].returnVideo();
-                            //Call return method
-                            System.out.println("You have returned " + movie[indexNumber].getMovieTitle());
-                        } else {
-                            System.out.println("The movie " + movie[indexNumber].getMovieTitle() + " have been returned.");
+                        try {
+
+                            if (found) {
+                                // If Movie has been rented out allow it return back to library
+                                //rented status boolean OUT = false , IN = true;
+                                movie[indexNumber].returnVideo();
+                                //Call return method
+                                System.out.println("You have returned " + movie[indexNumber].getMovieTitle());
+
+                            } else {
+                                throw new MovieHasBeenReturnedException(returnMovieTitle, 2);
+                            }
+                        } catch (MovieHasBeenReturnedException movieReturnedException) {
+                            System.err.println(movieReturnedException.getErrorMessage());
                         }
-                    } else {
-                        System.out.println("The movie " + returnMovieTitle + " that you have entered is not a part inside our movie library.");
-                    }
+                    } while(!found);
                     break;
                 case 'c':
                 case 'C':
@@ -209,6 +220,7 @@ public class Store {
                             System.out.println("[Back = 0000]");
                             System.out.print("Please enter your customer name:");
                             customerName = _scn.nextLine();
+
                             while (customerFindIndexCounter <= customerReadCounter - 1) {
                                 if (customerList[customerFindIndexCounter].customerName.equals(customerName)) {
                                     customerFound = true;
@@ -294,8 +306,13 @@ public class Store {
 
                     do {
                         int searchCustomerInfoIndex = 0;
+                        System.out.println("[ Back = 0000 ]");
                         System.out.print("Please Enter Customer Name: ");
                         String customerNameInfoSearch = _scn.nextLine();
+
+                        if(customerNameInfoSearch.equals("0000")){
+                            break;
+                        }
                         try {
 
 
@@ -315,7 +332,7 @@ public class Store {
                                 throw new CustomerNotAvailException(customerNameInfoSearch);
                             }
                         } catch (CustomerNotAvailException customerNotFoundException) {
-                            System.err.print(customerNotFoundException.getErrorMessage());
+                            System.err.println(customerNotFoundException.getErrorMessage());
                         }
                     } while (!customerInfoFound);
                     break;

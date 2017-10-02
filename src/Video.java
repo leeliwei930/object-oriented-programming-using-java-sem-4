@@ -39,9 +39,14 @@ public  abstract class  Video {
 
 
 
-    public void returnVideo() {
+    public void returnVideo() throws MovieHasBeenReturnedException{
 
-        this.status = true;
+        if(this.status){
+            throw new MovieHasBeenReturnedException(this.movieTitle , 1);
+        } else {
+            this.status = true;
+
+        }
     }
 //Getter
     public String getMovieTitle() {

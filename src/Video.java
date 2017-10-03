@@ -133,7 +133,7 @@ public  abstract class  Video {
         if(!this.status){
             throw new NotAvailException(this.movieTitle);
         } else {
-            if(customer.totalPurchaseAmount >= 100.00){
+            if(customer.totalPurchaseAmount >= 100.00 && !this.getClass().getName().equals("VHS")){
                 this.priceOfVideo = this.priceOfVideo * 0.9;
             }
         }
